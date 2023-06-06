@@ -1,0 +1,25 @@
+name: GitHub Actions Demo
+run-name: newToUpdate
+on: workflow_dispatch
+
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Creating folders..."
+      - run: mkdir switch && cd switch
+      - run: mkdir DBI && cd DBI
+      - name: "Downloading..."
+      - run: curl -L https://github.com/rashevskyv/dbi/releases/latest/download/DBI_ru.nro
+      - run: mv DBI_ru.nro DBI.nro
+      - run: cd .. && cd ..
+      - name: "Zipping..."
+      - run: zip -r DBIupdate.zip switch
+      - name: "Uploading..."
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            DBIupdate.zip
